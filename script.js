@@ -35,16 +35,16 @@ navigator.mediaDevices.getUserMedia(constraints)
         // now we will convert the media chunks into video
         let blob = new Blob(chunks, { type:"video/mp4"});
 
-       if (db){
-         let videoId = shortid();
+        if (db) {
+         let videoID = shortid();
          let dbTransaction = db.transaction("video", "readwrite");
-         let videoStore = dbTransaction.onjectStore("video");
+         let videoStore = dbTransaction.objectStore("video");
          let videoEntry = {
-            id: videoId,
-            blobData: blob  
+             id: `vid-${videoID}`,
+             blobData: blob
          }
          videoStore.add(videoEntry);
-       }
+     }
 
       //  let videoURL = URL.createObjectURL(blob);
       //  let a = document.createElement("a");
@@ -91,10 +91,21 @@ captureBtnCont.addEventListener("click", (e) => {
    let imageURL = canvas.toDataURL;
 
    // this is for downloading the image
-   let a = document.createElement("a");
-   a.href = imageURL;
-   a.download = "image.jpg";
-   a.click();
+   if (db) {
+      let imageID = shortid();
+      let dbTransaction = db.transaction("image", "readwrite");
+      let imageStore = dbTransaction.objectStore("image");
+      let imageEntry = {
+          id: `img-${imageID}`,
+          url: imageURL
+      }
+      imageStore.add(imageEntry);
+  }
+
+  setTimeout(() => {
+      captureBtn.classList.remove("scale-capture");
+  }, 500)
+  
 })
 
 
