@@ -35,11 +35,19 @@ navigator.mediaDevices.getUserMedia(constraints)
         // now we will convert the media chunks into video
         let blob = new Blob(chunks, { type:"video/mp4"});
 
-       let videoURL = URL.createObjectURL(blob);
-       let a = document.createElement("a");
-       a.href = videoURL;
-       a.download = "stream.mp4";
-       a.click();
+       if (db){
+         let dbTransaction = db.transaction("video", "readwrite");
+         let videoStore = dbTransaction.onjectStore("video");
+         let videoEntry = {
+            blobData: blob  
+         }
+       }
+
+      //  let videoURL = URL.createObjectURL(blob);
+      //  let a = document.createElement("a");
+      //  a.href = videoURL;
+      //  a.download = "stream.mp4";
+      //  a.click();
      }) 
 })
 
