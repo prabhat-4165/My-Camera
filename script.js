@@ -72,40 +72,34 @@ recordBtnCont.addEventListener("click", (e) => {
 })
 
 captureBtnCont.addEventListener("click", (e) => {
+   captureBtn.classList.add("scale-capture");
+
    let canvas = document.createElement("canvas");
    canvas.width = video.videoWidth;
    canvas.height = video.videoHeight;
 
    let tool = canvas.getContext("2d");
-   // first 0 is for top and second 0 is for left 
-   // canvas.width and height means how much part you want to take in your image 
-   // as we want to take its complete part so we have given its full height and width
    tool.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  // for filtering 
-   tool.fillStyle = transparentColor;  
+   // Filtering 
+   tool.fillStyle = transparentColor;
    tool.fillRect(0, 0, canvas.width, canvas.height);
-   
-   
-   // for accessing the url of your image
-   let imageURL = canvas.toDataURL;
 
-   // this is for downloading the image
+   let imageURL = canvas.toDataURL();
+
    if (db) {
-      let imageID = shortid();
-      let dbTransaction = db.transaction("image", "readwrite");
-      let imageStore = dbTransaction.objectStore("image");
-      let imageEntry = {
-          id: `img-${imageID}`,
-          url: imageURL
-      }
-      imageStore.add(imageEntry);
-  }
+       let imageID = shortid();
+       let dbTransaction = db.transaction("image", "readwrite");
+       let imageStore = dbTransaction.objectStore("image");
+       let imageEntry = {
+           id: `img-${imageID}`,
+           url: imageURL
+       }
+       imageStore.add(imageEntry);
+   }
 
-  setTimeout(() => {
-      captureBtn.classList.remove("scale-capture");
-  }, 500)
-  
+   setTimeout(() => {
+       captureBtn.classList.remove("scale-capture");
+   }, 500)
 })
 
 
