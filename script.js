@@ -36,11 +36,14 @@ navigator.mediaDevices.getUserMedia(constraints)
         let blob = new Blob(chunks, { type:"video/mp4"});
 
        if (db){
+         let videoId = shortid();
          let dbTransaction = db.transaction("video", "readwrite");
          let videoStore = dbTransaction.onjectStore("video");
          let videoEntry = {
+            id: videoId,
             blobData: blob  
          }
+         videoStore.add(videoEntry);
        }
 
       //  let videoURL = URL.createObjectURL(blob);
