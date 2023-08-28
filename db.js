@@ -1,5 +1,6 @@
 // open database
 // create onjectstore
+// make transactions
 
 let db;
 let openRequest = indexedDB.open("myDataBase");
